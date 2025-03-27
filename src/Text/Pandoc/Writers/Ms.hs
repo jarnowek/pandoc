@@ -97,7 +97,7 @@ escapeStr opts =
 
 -- In PDFs we need to escape parentheses and backslash.
 -- In PDF we need to encode as UTF-16 BE.
-escapePDFString :: Text -> Text
+{-escapePDFString :: Text -> Text
 escapePDFString t
   | T.all (\c -> isAscii c && c /= '(' && c /= ')' && c /= '\\' && c /= '"') t = t
   | otherwise = ("\\376\\377" <>) .  -- add bom
@@ -105,11 +105,10 @@ escapePDFString t
  where
   encodeChar c =
     if isAscii c && c /= '\\' && c /= '(' && c /= ')'
-      then T.singleton c
-      else toOctal n = "\\" <> T.pack (printf "%03o" n)
---       then "\\000" <> T.singleton c
---       else mconcat . map toOctal . B.unpack . TE.encodeUtf16BE $ T.singleton c
---  toOctal n = "\\" <> T.pack (printf "%03o" n)
+       then "\\000" <> T.singleton c
+       else mconcat . map toOctal . B.unpack . TE.encodeUtf16BE $ T.singleton c
+  toOctal n = "\\" <> T.pack (printf "%03o" n)
+-}
 
 escapeUri :: Text -> Text
 escapeUri = T.pack . escapeURIString (\c -> c /= '@' && isAllowedInURI c) . T.unpack
