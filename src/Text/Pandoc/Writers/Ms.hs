@@ -105,7 +105,9 @@ escapePDFString t
  where
   encodeChar c =
     if isAscii c && c /= '\\' && c /= '(' && c /= ')'
-       then "\\000" <> T.singleton c
+      then T.singleton c
+      else toOctal n = "\\" <> T.pack (printf "%03o" n)
+--       then "\\000" <> T.singleton c
 --       else mconcat . map toOctal . B.unpack . TE.encodeUtf16BE $ T.singleton c
 --  toOctal n = "\\" <> T.pack (printf "%03o" n)
 
